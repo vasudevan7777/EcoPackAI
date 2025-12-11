@@ -1,0 +1,101 @@
+category_id,category_name,protection_level,temperature_sensitive,moisture_sensitive
+1,Electronics,high,yes,yes
+2,Food & Beverage,high,yes,yes
+3,Cosmetics,medium,no,yes
+4,Home & Garden,medium,no,no
+5,Textiles,low,no,no
+6,Books,low,no,no
+7,Office Supplies,low,no,no
+8,Pharmaceuticals,high,yes,yes
+9,Medical Devices,high,yes,yes
+10,Chemical Products,high,no,yes
+11,Fragile Goods,high,no,no
+12,Fresh Produce,high,yes,yes
+13,Dairy Products,high,yes,yes
+14,Bakery Items,medium,yes,no
+15,Beverages,high,yes,no
+16,Confectionery,medium,no,yes
+17,Spices & Seasonings,medium,no,yes
+18,Pet Food,medium,no,no
+19,Infant Care,high,no,yes
+20,Personal Hygiene,medium,no,yes
+21,Hair Care Products,medium,no,yes
+22,Skin Care,medium,no,yes
+23,Makeup & Beauty,medium,no,yes
+24,Fragrance,medium,no,no
+25,Vitamins & Supplements,medium,no,yes
+26,Apparel & Clothing,low,no,no
+27,Footwear,low,no,no
+28,Accessories,low,no,no
+29,Bedding & Linens,low,no,no
+30,Kitchen Textiles,low,no,no
+31,Towels & Bathware,low,no,no
+32,Toys & Games,low,no,no
+33,Children Products,medium,no,yes
+34,Sports Equipment,low,no,no
+35,Outdoor Gear,low,no,no
+36,Fitness Equipment,low,no,no
+37,Stationery,low,no,no
+38,Printing Materials,low,no,no
+39,Art Supplies,medium,no,no
+40,Books & Magazines,low,no,no
+41,Journals & Notebooks,low,no,no
+42,Packaging Materials,low,no,no
+43,Gardening Tools,low,no,no
+44,Gardening Seeds,medium,no,no
+45,Gardening Supplies,low,no,no
+46,Home Decor,low,no,no
+47,Furniture,low,no,no
+48,Lighting,low,no,no
+49,Hardware,low,no,no
+50,Tools & Equipment,low,no,no
+51,Auto Parts,low,no,no
+52,Automotive Accessories,low,no,no
+53,Industrial Machinery,low,no,no
+54,Industrial Chemicals,high,no,yes
+55,Laboratory Equipment,high,no,no
+56,Medical Supplies,high,yes,yes
+57,Surgical Instruments,high,yes,yes
+58,Diagnostic Devices,high,yes,yes
+59,Orthopedic Devices,high,no,yes
+60,Rehabilitation Equipment,low,no,no
+61,Dental Products,medium,yes,yes
+62,Eye Care,medium,yes,yes
+63,Ear Care,medium,yes,yes
+64,Wound Care,medium,yes,yes
+65,First Aid Supplies,medium,yes,yes
+66,Athletic Recovery,medium,no,no
+67,Sports Nutrition,medium,no,yes
+68,Energy Drinks,high,yes,no
+69,Coffee & Tea,medium,no,no
+70,Juices & Smoothies,high,yes,no
+71,Alcoholic Beverages,medium,yes,no
+72,Cooking Oils,medium,no,yes
+73,Condiments,medium,no,yes
+74,Sauces & Pastes,medium,no,yes
+75,Grains & Cereals,medium,no,yes
+76,Legumes & Pulses,medium,no,yes
+77,Nuts & Seeds,medium,no,yes
+78,Dried Fruits,medium,no,yes
+79,Frozen Foods,high,yes,no
+80,Canned Goods,medium,no,no
+81,Jarred Foods,medium,no,yes
+82,Breakfast Items,medium,no,yes
+83,Snacks & Chips,medium,no,yes
+84,Chocolate & Candy,medium,no,yes
+85,Biscuits & Cookies,medium,no,yes
+86,Pasta & Noodles,medium,no,yes
+87,Rice Products,medium,no,no
+88,Flour & Baking Mix,medium,no,yes
+89,Yeast & Leavening,medium,no,yes
+90,Sugar & Sweeteners,low,no,yes
+91,Salt & Seasonings,low,no,yes
+92,Vinegar & Oils,medium,no,yes
+93,Beverages Powders,medium,no,yes
+94,Coffee Beans,medium,no,yes
+95,Tea Leaves,medium,no,yes
+96,Herbal Infusions,medium,no,yes
+97,Water & Mineral,high,yes,no
+98,Juice Concentrates,high,yes,no
+99,Powdered Milk,medium,no,yes
+100,Cheese & Dairy,high,yes,yes
