@@ -1,0 +1,155 @@
+MODULE 4: AI RECOMMENDATION MODEL TRAINING
+==========================================
+
+Overview:
+This module trains machine learning models to predict packaging material costs
+and CO2 emissions. It also creates a ranking system to recommend the best materials.
+
+Main Script:
+------------
+train_models.py - Trains both prediction models and generates rankings
+
+Machine Learning Models:
+------------------------
+
+Model 1: Cost Prediction (Random Forest Regressor)
+Purpose: Predicts the cost per kilogram of packaging materials
+Algorithm: Random Forest - ensemble of decision trees
+Configuration:
+- 50 trees in the forest
+- Maximum depth of 3 levels
+- Minimum 3 samples to split a node
+- Minimum 2 samples per leaf
+
+Model 2: CO2 Footprint Prediction (XGBoost Regressor)
+Purpose: Predicts environmental impact (CO2 emissions)
+Algorithm: XGBoost - gradient boosting framework
+Configuration:
+- 50 boosting rounds
+- Maximum depth of 3 levels
+- Learning rate of 0.05
+- Regularization to prevent overfitting
+
+Training Process:
+-----------------
+
+1. Data Loading
+   Loads the prepared datasets from module_3:
+   - 80 training samples with 14 features
+   - 20 testing samples with 14 features
+   - Cost and CO2 target values
+
+2. Model Training
+   Each model learns patterns from the training data:
+   - Identifies which features influence cost/CO2
+   - Learns relationships between features and targets
+   - Builds internal prediction rules
+
+3. Model Evaluation
+   Tests models on unseen data (20 test samples) using three metrics:
+
+   RMSE (Root Mean Squared Error):
+   - Measures average prediction error
+   - Lower is better
+   - Penalizes large errors more heavily
+
+   MAE (Mean Absolute Error):
+   - Average absolute difference between predicted and actual
+   - Lower is better
+   - Easier to interpret (direct error in units)
+
+   R² Score (R-squared):
+   - Percentage of variance explained by model
+   - Range: 0 to 1 (higher is better)
+   - 0.68 means model explains 68% of variation
+
+4. Material Ranking System
+   Evaluates all 100 materials using both models:
+   
+   Step 1: Predict cost and CO2 for each material
+   Step 2: Rank materials by predicted cost (lower is better)
+   Step 3: Rank materials by predicted CO2 (lower is better)
+   Step 4: Combine rankings to get overall score
+   Step 5: Sort by overall score to identify best materials
+
+   Ranking Formula:
+   overall_score = (cost_rank + co2_rank) / 2
+
+Model Performance:
+------------------
+
+Cost Prediction Model:
+- RMSE: 14.11 (average error of $14.11)
+- MAE: 9.26 (typical error of $9.26)
+- R² Score: 0.679 (explains 68% of cost variation)
+- Interpretation: Good accuracy for cost estimation
+
+CO2 Prediction Model:
+- RMSE: 0.285 (average error of 0.285 units)
+- MAE: 0.170 (typical error of 0.17 units)
+- R² Score: 0.838 (explains 84% of CO2 variation)
+- Interpretation: Excellent accuracy for environmental prediction
+
+Output Files:
+-------------
+
+1. cost_model.pkl (30 KB)
+   Saved Random Forest model for cost predictions
+
+2. co2_model.pkl (49 KB)
+   Saved XGBoost model for CO2 predictions
+
+3. model_metrics.csv
+   Performance metrics (RMSE, MAE, R²) for both models
+
+4. material_rankings.csv
+   Complete ranking of all 100 materials with:
+   - Predicted cost and CO2
+   - Actual cost and CO2
+   - Individual rankings
+   - Combined overall rank
+
+Top Recommended Materials:
+--------------------------
+1. Paper Mache Molded - Best overall balance
+2. Recycled Paper Mixed Fiber - Excellent sustainability
+3. Cellulose Film Standard - Good cost-efficiency
+
+These materials score highest on combined cost and environmental factors.
+
+How to Use:
+-----------
+1. Ensure Module 3 data files exist in module_3 folder
+2. Navigate to module_4 folder
+3. Run: python train_models.py
+4. Output: Model metrics and "Model training completed"
+5. Verify: Run python verify_module4.py
+
+Making Predictions on New Materials:
+-------------------------------------
+To predict for a new material:
+1. Load the scaler: scaler = joblib.load('../module_3/ml_scaler.pkl')
+2. Load models: cost_model = joblib.load('cost_model.pkl')
+3. Prepare data with same 14 features
+4. Scale the features: scaled_data = scaler.transform(data)
+5. Predict: cost = cost_model.predict(scaled_data)
+
+Why These Models?
+-----------------
+Random Forest: Robust to outliers, handles non-linear relationships,
+provides feature importance rankings
+
+XGBoost: State-of-art performance, handles complex patterns,
+includes built-in regularization to prevent overfitting
+
+Model Limitations:
+------------------
+- Trained on 100 samples (moderate dataset size)
+- Performance improves with more diverse training data
+- Best used for materials similar to training samples
+- May be less accurate for completely new material types
+
+Next Steps:
+-----------
+These models can be integrated into a web application or API to provide
+real-time material recommendations based on cost and environmental criteria.

@@ -1,0 +1,118 @@
+MODULE 3: MACHINE LEARNING DATASET PREPARATION
+==============================================
+
+Overview:
+This module prepares the processed data for machine learning by splitting it into
+training and testing sets, selecting relevant features, and scaling the data.
+
+Main Script:
+------------
+ml_dataset_preparation.py - Handles all ML preparation tasks
+
+Process Flow:
+-------------
+
+1. Data Loading
+   Loads materials_data_processed.csv (100 records, 18 features) from the data
+   folder. This file was created by Module 2 and contains all necessary features.
+
+2. Feature Selection
+   Selects 14 features specifically relevant for predictions:
+
+   Material Safety Features (3):
+   - biodegradability_score: How quickly material breaks down
+   - recyclability_percent: Percentage that can be recycled
+   - co2_emission_score: Carbon footprint during production
+
+   Strength Features (3):
+   - strength_mpa: Tensile strength
+   - weight_capacity_kg: Load capacity
+   - material_suitability_score: Overall quality rating
+
+   Shipping Category Feature (1):
+   - material_type_encoded: Numeric material category
+
+   Engineered Features (2):
+   - co2_impact_index: Environmental efficiency
+   - cost_efficiency_index: Strength per cost
+
+   Normalized Features (5):
+   - All above features in normalized form (0-1 scale)
+
+3. Target Variable Generation
+   Creates two prediction targets:
+
+   Target 1: Cost Prediction
+   Variable: cost_per_kg
+   Range: $48-$160 per kilogram
+   Purpose: Predict material costs for budgeting
+
+   Target 2: CO2 Impact Prediction
+   Variable: co2_emission_score
+   Range: 0.5-5.2 emission score
+   Purpose: Predict environmental impact
+
+4. Train-Test Split
+   Divides data into two sets:
+   - Training: 80 samples (80%) - Used to train models
+   - Testing: 20 samples (20%) - Used to evaluate models
+   
+   Why split? This prevents models from memorizing data and ensures
+   they can make accurate predictions on new, unseen materials.
+
+5. Data Scaling
+   Applies StandardScaler to normalize all features:
+   Formula: (value - mean) / standard_deviation
+   Result: Features have mean = 0 and standard deviation = 1
+
+   Why scale? Machine learning algorithms perform better when all
+   features are on similar scales. Without scaling, features with
+   large values dominate the learning process.
+
+   Important: The scaler is fitted only on training data to prevent
+   data leakage. The same scaling is then applied to test data.
+
+6. File Generation
+   Creates 8 output files in module_3 folder:
+
+   Feature Files:
+   - ml_X_train.csv: Training features (80 samples × 14 features)
+   - ml_X_test.csv: Testing features (20 samples × 14 features)
+
+   Cost Target Files:
+   - ml_y_cost_train.csv: Training cost values (80 samples)
+   - ml_y_cost_test.csv: Testing cost values (20 samples)
+
+   CO2 Target Files:
+   - ml_y_co2_train.csv: Training CO2 values (80 samples)
+   - ml_y_co2_test.csv: Testing CO2 values (20 samples)
+
+   Pipeline Files:
+   - ml_scaler.pkl: Saved StandardScaler object (binary file)
+   - ml_feature_names.txt: List of 14 feature names
+
+How to Use:
+-----------
+1. Ensure materials_data_processed.csv exists in data folder
+2. Navigate to module_3 folder
+3. Run: python ml_dataset_preparation.py
+4. Output: "Data preparation completed"
+5. Verify: Run python verify_module3.py
+
+What Gets Created:
+------------------
+- 6 CSV files with training and testing data
+- 1 PKL file with the trained scaler (needed for predictions)
+- 1 TXT file listing feature names
+
+Why ml_scaler.pkl is Important:
+--------------------------------
+This file stores the scaling parameters (mean and standard deviation) learned
+from the training data. When making predictions on new materials, you must
+use this same scaler to transform the data the same way. Without it, predictions
+will be incorrect because the scale won't match what the model expects.
+
+Next Steps:
+-----------
+These prepared datasets are used in Module 4 to train machine learning models
+for cost and CO2 footprint prediction.

@@ -1,0 +1,14 @@
+strength_mpa
+weight_capacity_kg
+biodegradability_score
+recyclability_percent
+co2_emission_score
+material_type_encoded
+co2_impact_index
+cost_efficiency_index
+material_suitability_score
+strength_mpa_normalized
+weight_capacity_kg_normalized
+biodegradability_score_normalized
+co2_emission_score_normalized
+recyclability_percent_normalized
