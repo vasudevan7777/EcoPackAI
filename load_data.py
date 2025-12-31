@@ -15,15 +15,19 @@ conn = mysql.connector.connect(
 cursor = conn.cursor()
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(script_dir)
-data_dir = os.path.join(project_root, 'data')
+data_dir = os.path.join(script_dir, 'data')
 
 print("="*60)
 print("DATABASE LOADING")
 print("="*60)
 
+print("\nClearing existing data...")
+cursor.execute("DELETE FROM materials")
+cursor.execute("DELETE FROM product_categories")
+print("Existing data cleared")
+
 print("\nLoading materials data...")
-materials_file = os.path.join(data_dir, 'materials_data.csv')
+materials_file = os.path.join(data_dir, 'materials_data_100_records.csv')
 with open(materials_file, 'r') as file:
     csv_reader = csv.DictReader(file)
     for row in csv_reader:
@@ -44,7 +48,7 @@ print(f"Loaded {cursor.rowcount} materials successfully")
 
 
 print("\nLoading product categories data...")
-categories_file = os.path.join(data_dir, 'product_categories.csv')
+categories_file = os.path.join(data_dir, 'product_categories_100_records.csv')
 with open(categories_file, 'r') as file:
     csv_reader = csv.DictReader(file)
     for row in csv_reader:

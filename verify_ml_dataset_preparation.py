@@ -6,6 +6,7 @@ import os
 def verify_files_exist():
     """Check if all required files were generated"""
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(script_dir, 'dataset_preparation')
     
     required_files = [
         'ml_X_train.csv',
@@ -24,7 +25,7 @@ def verify_files_exist():
     
     all_exist = True
     for file in required_files:
-        file_path = os.path.join(script_dir, file)
+        file_path = os.path.join(data_dir, file)
         exists = os.path.exists(file_path)
         status = "✅" if exists else "❌"
         print(f"{status} {file}")
@@ -36,17 +37,18 @@ def verify_files_exist():
 def verify_data_shapes():
     """Verify data dimensions and shapes"""
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(script_dir, 'dataset_preparation')
     
     print("\n" + "="*70)
     print("📏 DATA SHAPE VERIFICATION")
     print("="*70)
     
-    X_train = pd.read_csv(os.path.join(script_dir, 'ml_X_train.csv'))
-    X_test = pd.read_csv(os.path.join(script_dir, 'ml_X_test.csv'))
-    y_cost_train = pd.read_csv(os.path.join(script_dir, 'ml_y_cost_train.csv'))
-    y_cost_test = pd.read_csv(os.path.join(script_dir, 'ml_y_cost_test.csv'))
-    y_co2_train = pd.read_csv(os.path.join(script_dir, 'ml_y_co2_train.csv'))
-    y_co2_test = pd.read_csv(os.path.join(script_dir, 'ml_y_co2_test.csv'))
+    X_train = pd.read_csv(os.path.join(data_dir, 'ml_X_train.csv'))
+    X_test = pd.read_csv(os.path.join(data_dir, 'ml_X_test.csv'))
+    y_cost_train = pd.read_csv(os.path.join(data_dir, 'ml_y_cost_train.csv'))
+    y_cost_test = pd.read_csv(os.path.join(data_dir, 'ml_y_cost_test.csv'))
+    y_co2_train = pd.read_csv(os.path.join(data_dir, 'ml_y_co2_train.csv'))
+    y_co2_test = pd.read_csv(os.path.join(data_dir, 'ml_y_co2_test.csv'))
     
     print(f"\nFeature Sets:")
     print(f"  X_train shape: {X_train.shape} ✅")
@@ -70,12 +72,13 @@ def verify_data_shapes():
 def verify_feature_names():
     """Verify feature names"""
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(script_dir, 'dataset_preparation')
     
     print("\n" + "="*70)
     print("🏷️  FEATURE NAMES VERIFICATION")
     print("="*70)
     
-    with open(os.path.join(script_dir, 'ml_feature_names.txt'), 'r') as f:
+    with open(os.path.join(data_dir, 'ml_feature_names.txt'), 'r') as f:
         feature_names = [line.strip() for line in f.readlines()]
     
     print(f"\nTotal features: {len(feature_names)}")
@@ -88,12 +91,13 @@ def verify_feature_names():
 def verify_scaler():
     """Verify the scaler object"""
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(script_dir, 'dataset_preparation')
     
     print("\n" + "="*70)
     print("⚙️  SCALER VERIFICATION")
     print("="*70)
     
-    scaler = joblib.load(os.path.join(script_dir, 'ml_scaler.pkl'))
+    scaler = joblib.load(os.path.join(data_dir, 'ml_scaler.pkl'))
     
     print(f"\nScaler type: {type(scaler).__name__} ✅")
     print(f"Features scaled: {scaler.n_features_in_}")
@@ -133,14 +137,17 @@ def verify_data_quality(X_train, X_test):
 
 def verify_targets():
     """Verify target variable ranges and distributions"""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_dir = os.path.join(script_dir, 'dataset_preparation')
+    
     print("\n" + "="*70)
     print("🎯 TARGET VARIABLE VERIFICATION")
     print("="*70)
     
-    y_cost_train = pd.read_csv('ml_y_cost_train.csv')
-    y_cost_test = pd.read_csv('ml_y_cost_test.csv')
-    y_co2_train = pd.read_csv('ml_y_co2_train.csv')
-    y_co2_test = pd.read_csv('ml_y_co2_test.csv')
+    y_cost_train = pd.read_csv(os.path.join(data_dir, 'ml_y_cost_train.csv'))
+    y_cost_test = pd.read_csv(os.path.join(data_dir, 'ml_y_cost_test.csv'))
+    y_co2_train = pd.read_csv(os.path.join(data_dir, 'ml_y_co2_train.csv'))
+    y_co2_test = pd.read_csv(os.path.join(data_dir, 'ml_y_co2_test.csv'))
     
     print("\n1. Cost Prediction Target (cost_per_kg):")
     print(f"   Training range: ${y_cost_train['cost_per_kg'].min():.2f} - ${y_cost_train['cost_per_kg'].max():.2f}")

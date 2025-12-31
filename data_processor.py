@@ -6,16 +6,15 @@ import seaborn as sns
 import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(script_dir)
-data_dir = os.path.join(project_root, 'data')
+data_dir = os.path.join(script_dir, 'data')
 
 print("="*60)
 print("DATA PROCESSING")
 print("="*60)
 
 print("\nLoading datasets...")
-materials_df = pd.read_csv(os.path.join(data_dir, 'materials_data.csv'))
-categories_df = pd.read_csv(os.path.join(data_dir, 'product_categories.csv'))
+materials_df = pd.read_csv(os.path.join(data_dir, 'materials_data_100_records.csv'))
+categories_df = pd.read_csv(os.path.join(data_dir, 'product_categories_100_records.csv'))
 
 print(f"Materials dataset: {materials_df.shape[0]} records, {materials_df.shape[1]} features")
 print(f"Categories dataset: {categories_df.shape[0]} records, {categories_df.shape[1]} features")

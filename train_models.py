@@ -13,8 +13,8 @@ class ModelTraining:
     def __init__(self, module3_path=None):
         if module3_path is None:
             script_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(script_dir)
-            module3_path = os.path.join(project_root, 'module_3')
+            # Data files are in dataset_preparation folder
+            module3_path = os.path.join(script_dir, 'dataset_preparation')
         self.module3_path = module3_path
         self.X_train = None
         self.X_test = None
@@ -88,8 +88,7 @@ class ModelTraining:
         
     def create_material_ranking(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.dirname(script_dir)
-        data_path = os.path.join(project_root, 'data', 'materials_data_processed.csv')
+        data_path = os.path.join(script_dir, 'data', 'materials_data_processed.csv')
         
         data = pd.read_csv(data_path)
         scaler = joblib.load(f'{self.module3_path}/ml_scaler.pkl')

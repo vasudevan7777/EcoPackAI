@@ -12,8 +12,7 @@ class MLDatasetPreparation:
     def __init__(self, data_path=None):
         if data_path is None:
             script_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(script_dir)
-            data_path = os.path.join(project_root, 'data', 'materials_data_processed.csv')
+            data_path = os.path.join(script_dir, 'data', 'materials_data_processed.csv')
         self.data = pd.read_csv(data_path)
         self.X_train = None
         self.X_test = None
@@ -86,19 +85,21 @@ class MLDatasetPreparation:
     
     def save_prepared_data(self):
         script_dir = os.path.dirname(os.path.abspath(__file__))
+        output_dir = os.path.join(script_dir, 'dataset_preparation')
+        os.makedirs(output_dir, exist_ok=True)
         
-        self.X_train_scaled.to_csv(os.path.join(script_dir, 'ml_X_train.csv'), index=False)
-        self.X_test_scaled.to_csv(os.path.join(script_dir, 'ml_X_test.csv'), index=False)
+        self.X_train_scaled.to_csv(os.path.join(output_dir, 'ml_X_train.csv'), index=False)
+        self.X_test_scaled.to_csv(os.path.join(output_dir, 'ml_X_test.csv'), index=False)
         
-        pd.DataFrame({'cost_per_kg': self.y_cost_train}).to_csv(os.path.join(script_dir, 'ml_y_cost_train.csv'), index=False)
-        pd.DataFrame({'cost_per_kg': self.y_cost_test}).to_csv(os.path.join(script_dir, 'ml_y_cost_test.csv'), index=False)
+        pd.DataFrame({'cost_per_kg': self.y_cost_train}).to_csv(os.path.join(output_dir, 'ml_y_cost_train.csv'), index=False)
+        pd.DataFrame({'cost_per_kg': self.y_cost_test}).to_csv(os.path.join(output_dir, 'ml_y_cost_test.csv'), index=False)
         
-        pd.DataFrame({'co2_emission_score': self.y_co2_train}).to_csv(os.path.join(script_dir, 'ml_y_co2_train.csv'), index=False)
-        pd.DataFrame({'co2_emission_score': self.y_co2_test}).to_csv(os.path.join(script_dir, 'ml_y_co2_test.csv'), index=False)
+        pd.DataFrame({'co2_emission_score': self.y_co2_train}).to_csv(os.path.join(output_dir, 'ml_y_co2_train.csv'), index=False)
+        pd.DataFrame({'co2_emission_score': self.y_co2_test}).to_csv(os.path.join(output_dir, 'ml_y_co2_test.csv'), index=False)
         
-        joblib.dump(self.scaler, os.path.join(script_dir, 'ml_scaler.pkl'))
+        joblib.dump(self.scaler, os.path.join(output_dir, 'ml_scaler.pkl'))
         
-        with open(os.path.join(script_dir, 'ml_feature_names.txt'), 'w') as f:
+        with open(os.path.join(output_dir, 'ml_feature_names.txt'), 'w') as f:
             f.write('\n'.join(self.feature_columns))
 
 
