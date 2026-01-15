@@ -1,15 +1,22 @@
 import mysql.connector
 import csv
-import getpass
 import os
+from dotenv import load_dotenv
 
-password = "vasu3107" 
+# Load environment variables from backend/.env file
+load_dotenv(os.path.join(os.path.dirname(__file__), 'backend', '.env'))
+
+# Get database credentials from environment variables
+MYSQL_HOST = os.getenv('MYSQL_HOST', 'localhost')
+MYSQL_USER = os.getenv('MYSQL_USER', 'root')
+MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD', '')
+MYSQL_DATABASE = os.getenv('MYSQL_DATABASE', 'ecopackai_data')
 
 conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password=password,
-    database="ecopackai_data"
+    host=MYSQL_HOST,
+    user=MYSQL_USER,
+    password=MYSQL_PASSWORD,
+    database=MYSQL_DATABASE
 )
 
 cursor = conn.cursor()

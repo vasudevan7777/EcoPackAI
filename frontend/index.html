@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPackAI - Material Recommendation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between py-3">
+                <div class="brand">
+                    <i class="bi bi-layers-fill"></i>
+                    <span>EcoPackAI</span>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div id="backendStatus" class="backend-status-dot" title="Backend Status">
+                        <i class="bi bi-circle-fill"></i>
+                    </div>
+                    <nav class="header-nav">
+                        <button class="nav-link" onclick="scrollToSection('input')">New Request</button>
+                        <button class="nav-link" onclick="scrollToSection('results')">Results</button>
+                        <button class="nav-link" onclick="scrollToSection('dashboard')">Dashboard</button>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>AI-Powered Material Selection</h1>
+                    <p>Get intelligent packaging recommendations based on your product specifications</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Input Section -->
+        <section id="input" class="input-section">
+            <div class="container">
+                <!-- Quick Guide Card -->
+                <div class="guide-card">
+                    <div class="guide-header">
+                        <i class="bi bi-lightbulb-fill"></i>
+                        <h3>How to Fill the Details</h3>
+                    </div>
+                    <div class="guide-content">
+                        <div class="guide-item">
+                            <span class="guide-number">1</span>
+                            <div>
+                                <strong>Basic Information:</strong> Product name (e.g., "Organic Coffee") and category (Food, Electronics, etc.)
+                            </div>
+                        </div>
+                        <div class="guide-item">
+                            <span class="guide-number">2</span>
+                            <div>
+                                <strong>Physical Properties:</strong> Weight in kg, Volume in liters, and Fragility level
+                            </div>
+                        </div>
+                        <div class="guide-item">
+                            <span class="guide-number">3</span>
+                            <div>
+                                <strong>Environmental Conditions:</strong> Storage temperature, humidity, and shelf life
+                            </div>
+                        </div>
+                        <div class="guide-item">
+                            <span class="guide-number">4</span>
+                            <div>
+                                <strong>Business Requirements:</strong> Order quantity and your priority (Cost, Sustainability, or Performance)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Product Specifications</h2>
+                        <p>Enter your product details for personalized AI-powered recommendations</p>
+                    </div>
+
+                    <form id="productForm" novalidate>
+                        <!-- Basic Info -->
+                        <div class="form-group-title">
+                            <i class="bi bi-info-circle-fill"></i> Basic Information
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="productName">Product Name <span class="required">*</span></label>
+                                <input type="text" id="productName" class="form-control" required
+                                       placeholder="e.g., Organic Coffee Beans, Laptop Computer"
+                                       title="Enter the name of your product">
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> Enter a descriptive name for your product</div>
+                                <div class="invalid-feedback">Product name is required</div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="category">Category <span class="required">*</span></label>
+                                <select id="category" class="form-control" required
+                                        title="Select the product category">
+                                    <option value="">Select category</option>
+                                    <option value="Food & Beverage">🍕 Food & Beverage</option>
+                                    <option value="Electronics">💻 Electronics</option>
+                                    <option value="Cosmetics">💄 Cosmetics & Personal Care</option>
+                                    <option value="Pharmaceuticals">💊 Pharmaceuticals</option>
+                                    <option value="Industrial">🏭 Industrial Products</option>
+                                    <option value="Consumer Goods">🛍️ Consumer Goods</option>
+                                </select>
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> Choose the industry category</div>
+                                <div class="invalid-feedback">Please select a category</div>
+                            </div>
+                        </div>
+
+                        <!-- Physical Properties -->
+                        <div class="form-group-title">
+                            <i class="bi bi-box-seam"></i> Physical Properties
+                        </div>
+                        <div class="form-grid form-grid-3">
+                            <div class="form-field">
+                                <label for="weight">Weight (kg) <span class="required">*</span></label>
+                                <input type="number" id="weight" class="form-control" required
+                                       placeholder="e.g., 2.5" step="0.01" min="0.01"
+                                       title="Product weight in kilograms">
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> Total product weight (0.5 kg = 500g)</div>
+                                <div class="invalid-feedback">Enter a valid weight</div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="volume">Volume (L) <span class="required">*</span></label>
+                                <input type="number" id="volume" class="form-control" required
+                                       placeholder="e.g., 5.0" step="0.01" min="0.01"
+                                       title="Product volume in liters">
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> Space occupied by the product</div>
+                                <div class="invalid-feedback">Enter a valid volume</div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="fragility">Fragility <span class="required">*</span></label>
+                                <select id="fragility" class="form-control" required
+                                        title="How fragile is your product?">
+                                    <option value="">Select level</option>
+                                    <option value="Low">🟢 Low (Durable items)</option>
+                                    <option value="Medium">🟡 Medium (Standard products)</option>
+                                    <option value="High">🔴 High (Fragile/Delicate)</option>
+                                </select>
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> Low: Books | Medium: Toys | High: Electronics, Glass</div>
+                                <div class="invalid-feedback">Select fragility level</div>
+                            </div>
+                        </div>
+
+                        <!-- Environmental Conditions -->
+                        <div class="form-group-title">
+                            <i class="bi bi-thermometer-half"></i> Environmental Conditions
+                        </div>
+                        <div class="form-grid form-grid-3">
+                            <div class="form-field">
+                                <label for="temperature">Temperature (°C) <span class="required">*</span></label>
+                                <input type="number" id="temperature" class="form-control" required
+                                       placeholder="e.g., 25 (room temp)" step="1"
+                                       title="Recommended storage temperature">
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> 0-10°C: Cold | 15-25°C: Room | >30°C: Warm</div>
+                                <div class="invalid-feedback">Enter temperature</div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="humidity">Humidity (%) <span class="required">*</span></label>
+                                <input type="number" id="humidity" class="form-control" required
+                                       placeholder="e.g., 60" step="1" min="0" max="100"
+                                       title="Recommended humidity level">
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> 30-50%: Dry | 50-70%: Normal | >70%: Humid</div>
+                                <div class="invalid-feedback">Enter humidity (0-100)</div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="shelfLife">Shelf Life (days) <span class="required">*</span></label>
+                                <input type="number" id="shelfLife" class="form-control" required
+                                       placeholder="e.g., 365 (1 year)" step="1" min="1"
+                                       title="Expected shelf life">
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> 7: 1 week | 90: 3 months | 365: 1 year</div>
+                                <div class="invalid-feedback">Enter shelf life</div>
+                            </div>
+                        </div>
+
+                        <!-- Business Requirements -->
+                        <div class="form-group-title">
+                            <i class="bi bi-graph-up-arrow"></i> Business Requirements
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="quantity">Order Quantity <span class="required">*</span></label>
+                                <input type="number" id="quantity" class="form-control" required
+                                       placeholder="e.g., 10000" step="1" min="1"
+                                       title="Number of units to package">
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> Total units needed for your order</div>
+                                <div class="invalid-feedback">Enter order quantity</div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="priority">Optimization Priority <span class="required">*</span></label>
+                                <select id="priority" class="form-control" required
+                                        title="What's most important to you?">
+                                    <option value="">Select priority</option>
+                                    <option value="Cost">💰 Cost - Minimize expenses</option>
+                                    <option value="Sustainability">🌱 Sustainability - Eco-friendly</option>
+                                    <option value="Balanced">⚖️ Balanced - Cost & Environment</option>
+                                    <option value="Performance">🚀 Performance - Best quality</option>
+                                </select>
+                                <div class="field-hint"><i class="bi bi-lightbulb"></i> Choose what matters most for your business</div>
+                                <div class="invalid-feedback">Select optimization priority</div>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="specialRequirements">
+                                <i class="bi bi-card-text"></i> Special Requirements (Optional)
+                            </label>
+                            <textarea id="specialRequirements" class="form-control" rows="3"
+                                      placeholder="E.g., Must be waterproof, food-grade certified, custom branding required..."
+                                      title="Any additional requirements"></textarea>
+                            <div class="field-hint"><i class="bi bi-lightbulb"></i> Add any special needs: certifications, branding, regulations, etc.</div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-secondary">Clear Details</button>
+                            <button type="submit" class="btn btn-primary">
+                                <span class="btn-text">Get Recommendations</span>
+                                <span class="btn-loader d-none">
+                                    <span class="spinner-border spinner-border-sm"></span>
+                                    Analyzing...
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results" class="results-section d-none">
+            <div class="container">
+                <!-- Top Recommendations -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Recommended Materials</h2>
+                        <p>AI-powered recommendations based on your specifications</p>
+                    </div>
+                    <div id="recommendationsGrid" class="recommendations-grid"></div>
+                </div>
+
+                <!-- Comparison Table -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Detailed Comparison</h2>
+                        <p>Compare materials across key metrics</p>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="comparisonTable" class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable('rank')">Rank <i class="bi bi-arrow-down-up"></i></th>
+                                    <th onclick="sortTable('material')">Material <i class="bi bi-arrow-down-up"></i></th>
+                                    <th onclick="sortTable('cost')">Cost <i class="bi bi-arrow-down-up"></i></th>
+                                    <th onclick="sortTable('co2')">CO₂ Impact <i class="bi bi-arrow-down-up"></i></th>
+                                    <th onclick="sortTable('score')">Score <i class="bi bi-arrow-down-up"></i></th>
+                                    <th>Properties</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Metrics Comparison -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Performance Metrics</h2>
+                        <p>Visual comparison of key indicators</p>
+                    </div>
+                    <div id="metricsGrid" class="metrics-grid"></div>
+                </div>
+
+                <div class="result-actions">
+                    <button onclick="scrollToSection('input')" class="btn btn-outline">New Analysis</button>
+                    <button onclick="scrollToSection('dashboard')" class="btn btn-primary">
+                        <i class="bi bi-bar-chart"></i> View Dashboard
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="input-section" style="display: none;">
+            <div class="container">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2><i class="bi bi-graph-up-arrow"></i> Business Intelligence Dashboard</h2>
+                        <p>Real-time sustainability analytics and insights</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="btn btn-primary" onclick="exportDashboardPDF()">
+                                <i class="bi bi-file-pdf"></i> Export PDF
+                            </button>
+                            <button class="btn btn-primary" onclick="exportDashboardExcel()">
+                                <i class="bi bi-file-excel"></i> Export Excel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="dashboardLoading" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                        <p class="mt-3">Loading analytics data...</p>
+                    </div>
+
+                    <div id="dashboardContent" style="display: none;">
+                        <!-- KPI Cards -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-3">
+                                <div class="metric-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                                    <div class="metric-icon"><i class="bi bi-tree"></i></div>
+                                    <div class="metric-label">CO₂ Reduction</div>
+                                    <div class="metric-value" id="dash-co2-pct">0%</div>
+                                    <div class="metric-sub" id="dash-co2-saved">0 kg saved</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-card" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">
+                                    <div class="metric-icon"><i class="bi bi-cash-coin"></i></div>
+                                    <div class="metric-label">Cost Savings</div>
+                                    <div class="metric-value" id="dash-cost">$0</div>
+                                    <div class="metric-sub">vs traditional</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-card" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
+                                    <div class="metric-icon"><i class="bi bi-box-seam"></i></div>
+                                    <div class="metric-label">Total Requests</div>
+                                    <div class="metric-value" id="dash-total">0</div>
+                                    <div class="metric-sub">recommendations</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                    <div class="metric-icon"><i class="bi bi-award"></i></div>
+                                    <div class="metric-label">Top Material</div>
+                                    <div class="metric-value" style="font-size: 1.2rem;" id="dash-top-mat">N/A</div>
+                                    <div class="metric-sub" id="dash-mat-count">0 uses</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charts -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <div class="chart-box">
+                                    <h5><i class="bi bi-bar-chart-fill"></i> CO₂ Environmental Impact</h5>
+                                    <p class="chart-subtitle">Comparison with Traditional Methods</p>
+                                    <div id="dashCo2Chart"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="chart-box">
+                                    <h5><i class="bi bi-cash-stack"></i> Cost Efficiency Analysis</h5>
+                                    <p class="chart-subtitle">AI vs Traditional Material Costs</p>
+                                    <div id="dashCostChart"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <div class="chart-box">
+                                    <h5><i class="bi bi-pie-chart-fill"></i> Material Selection Mix</h5>
+                                    <p class="chart-subtitle">Distribution by Material Type</p>
+                                    <div id="dashMaterialChart"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="chart-box">
+                                    <h5><i class="bi bi-graph-up-arrow"></i> Performance Trends</h5>
+                                    <p class="chart-subtitle">Cost & CO₂ Over Recent Requests</p>
+                                    <div id="dashTrendChart"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="chart-box">
+                                    <h5><i class="bi bi-recycle"></i> Sustainability Metrics</h5>
+                                    <p class="chart-subtitle">Material Recyclability Performance</p>
+                                    <div id="dashRecyclabilityChart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dashboardEmpty" class="text-center py-5" style="display: none;">
+                        <i class="bi bi-inbox" style="font-size: 4rem; color: #cbd5e0;"></i>
+                        <h4 class="mt-3">No Analytics Data</h4>
+                        <p class="text-muted">Make material recommendations to see dashboard analytics</p>
+                        <button class="btn btn-primary mt-3" onclick="scrollToSection('input')">
+                            <i class="bi bi-plus-circle"></i> Make First Request
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+        <div id="errorToast" class="toast error-toast">
+            <div class="toast-icon"><i class="bi bi-x-circle-fill"></i></div>
+            <div class="toast-content">
+                <div class="toast-title">Error</div>
+                <div class="toast-message" id="errorMessage"></div>
+            </div>
+            <button class="toast-close" onclick="closeToast('errorToast')"><i class="bi bi-x"></i></button>
+        </div>
+        
+        <div id="successToast" class="toast success-toast">
+            <div class="toast-icon"><i class="bi bi-check-circle-fill"></i></div>
+            <div class="toast-content">
+                <div class="toast-title">Success</div>
+                <div class="toast-message" id="successMessage"></div>
+            </div>
+            <button class="toast-close" onclick="closeToast('successToast')"><i class="bi bi-x"></i></button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js?v=5"></script>
+</body>
+</html>

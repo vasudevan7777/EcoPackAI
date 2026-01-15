@@ -7,6 +7,12 @@ import os
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 data_dir = os.path.join(script_dir, 'data')
+charts_dir = os.path.join(script_dir, 'analysis_charts')
+
+# Create analysis_charts directory if it doesn't exist
+if not os.path.exists(charts_dir):
+    os.makedirs(charts_dir)
+    print(f"Created directory: {charts_dir}")
 
 print("="*60)
 print("DATA PROCESSING")
@@ -148,7 +154,7 @@ for idx, col in enumerate(numerical_cols):
     axes[idx].set_xlabel(col)
     axes[idx].set_ylabel('Frequency')
 plt.tight_layout()
-plt.savefig(os.path.join(script_dir, 'distribution_plots.png'), dpi=300)
+plt.savefig(os.path.join(charts_dir, 'distribution_plots.png'), dpi=300)
 print("  ✓ Distribution plots saved")
 
 # 2. Correlation heatmap
@@ -157,7 +163,7 @@ correlation = materials_df[numerical_cols].corr()
 sns.heatmap(correlation, annot=True, fmt='.2f', cmap='coolwarm', center=0)
 plt.title('Feature Correlation Matrix')
 plt.tight_layout()
-plt.savefig(os.path.join(script_dir, 'correlation_heatmap.png'), dpi=300)
+plt.savefig(os.path.join(charts_dir, 'correlation_heatmap.png'), dpi=300)
 print("  ✓ Correlation heatmap saved")
 
 # 3. Box plots for outliers
@@ -168,7 +174,7 @@ for idx, col in enumerate(numerical_cols):
     axes[idx].set_title(f'{col} - Outlier Detection')
     axes[idx].set_ylabel(col)
 plt.tight_layout()
-plt.savefig(os.path.join(script_dir, 'boxplots_outliers.png'), dpi=300)
+plt.savefig(os.path.join(charts_dir, 'boxplots_outliers.png'), dpi=300)
 print("  ✓ Boxplots saved")
 
 # 4. Material type analysis
@@ -181,7 +187,7 @@ materials_df.groupby('material_type')['cost_per_kg'].mean().plot(kind='bar', ax=
 axes[1].set_title('Average Cost by Material Type')
 axes[1].set_ylabel('Cost ($/kg)')
 plt.tight_layout()
-plt.savefig(os.path.join(script_dir, 'material_type_analysis.png'), dpi=300)
+plt.savefig(os.path.join(charts_dir, 'material_type_analysis.png'), dpi=300)
 print("  ✓ Material type analysis saved")
 
 print("\n" + "="*60)
