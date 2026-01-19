@@ -8,6 +8,7 @@ from config import Config
 from database import DatabaseManager
 from ml_engine import MaterialRecommendationEngine
 from utils import validate_product_input, calculate_environmental_score
+import os
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -502,6 +503,12 @@ def internal_error(error):
 # MAIN
 # =============================================================================
 
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+
+'''
 if __name__ == '__main__':
     print("="*60)
     print("🚀 ECOPACKAI BACKEND API SERVER")
@@ -517,3 +524,4 @@ if __name__ == '__main__':
         port=app.config['PORT'],
         debug=app.config['DEBUG']
     )
+'''
