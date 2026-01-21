@@ -150,7 +150,3 @@ When you submit a product request, the system returns:
 | Bioplastic Container | $78.20 | 1.20 | 50 MPa | 70% | 80% |
 
 ---
-
-## 👨‍💻 Author
-
-Built with ❤️ for a sustainable future.
