@@ -1,6 +1,6 @@
 // Configuration
 const API_CONFIG = {
-    baseURL: 'http://localhost:5000',
+    baseURL: 'http://localhost:7860',
     apiKey: 'ecopackai_secure_key_2025',
     endpoints: {
         recommendations: '/api/recommendations',
@@ -231,7 +231,7 @@ async function submitRequest(data) {
         // Provide more specific error messages
         let errorMsg = error.message;
         if (error.message.includes('Failed to fetch')) {
-            errorMsg = 'Cannot connect to backend server. Please ensure the backend is running on http://localhost:5000';
+            errorMsg = 'Cannot connect to backend server. Please ensure the backend is running on http://localhost:7860';
         } else if (error.message.includes('NetworkError')) {
             errorMsg = 'Network error. Please check your connection and ensure the backend server is running.';
         }

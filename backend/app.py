@@ -10,10 +10,23 @@ from ml_engine import MaterialRecommendationEngine
 from utils import validate_product_input, calculate_environmental_score
 import os
 
-# Initialize Flask app
-app = Flask(__name__)
+# Initialize Flask app (serve frontend)
+app = Flask(
+    __name__,
+    static_folder="../frontend",
+    static_url_path=""
+)
+
 app.config.from_object(Config)
 CORS(app)  # Enable CORS for frontend integration
+
+# =======================
+# Serve frontend UI
+# =======================
+
+@app.route("/")
+def serve_frontend():
+    return app.send_static_file("index.html")
 
 # Initialize components
 db_manager = DatabaseManager(app.config)
@@ -504,7 +517,7 @@ def internal_error(error):
 # =============================================================================
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
+    port = int(os.environ.get("PORT", 7860))
     app.run(host="0.0.0.0", port=port)
 
 
