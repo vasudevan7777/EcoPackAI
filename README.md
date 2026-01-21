@@ -100,37 +100,6 @@ This project demonstrates a complete end-to-end machine learning pipeline - from
 
 ---
 
-## 📁 File Structure
-
-```
-ECOPACKAI_PACKAGE_SYSTEM/
-├── data/                          # Dataset files
-│   ├── materials_data.csv
-│   ├── materials_data_100_records.csv
-│   └── product_categories.csv
-├── dataset_preparation/           # Processed ML data
-│   ├── ml_X_train.csv
-│   ├── ml_X_test.csv
-│   ├── ml_feature_names.txt
-│   └── ml_scaler.pkl
-├── backend/                       # Flask API
-│   ├── app.py                     # Main API routes
-│   ├── ml_engine.py               # ML recommendation engine
-│   ├── database.py                # Data management
-│   ├── config.py                  # Configuration
-│   └── utils.py                   # Helper functions
-├── frontend/                      # Web UI
-│   ├── index.html                 # Main page
-│   ├── app.js                     # JavaScript logic
-│   └── style.css                  # Styling
-├── cost_model.pkl                 # Trained cost prediction model
-├── co2_model.pkl                  # Trained CO₂ prediction model
-├── train_models.py                # Model training script
-├── data_processor.py              # Data processing script
-├── Dockerfile                     # Docker configuration
-└── requirements.txt               # Python dependencies
-```
-
 ---
 
 ## 🛠️ Technology Stack
