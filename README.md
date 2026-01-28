@@ -100,6 +100,11 @@ This project demonstrates a complete end-to-end machine learning pipeline - from
 
 ---
 
+<<<<<<< HEAD
+=======
+---
+
+>>>>>>> 01cd6e3a9527d1d9484024da4fc7f47dc5b9f689
 ## 🛠️ Technology Stack
 
 | Category | Technologies |
@@ -147,4 +152,8 @@ When you submit a product request, the system returns:
 | Recycled Paper Board | $45.50 | 0.85 | 45 MPa | 85% | 85% |
 | Bioplastic Container | $78.20 | 1.20 | 50 MPa | 70% | 80% |
 
+<<<<<<< HEAD
 ---
+=======
+---
+>>>>>>> 01cd6e3a9527d1d9484024da4fc7f47dc5b9f689
